@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>An encyclopedia</title>
+    <style>
+        * {
+            margin: 0
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canv">
+    </canvas>
+
+    <script>
+        //The "model" of our game, i.e., the position of the circle in x
+        let a = 0
+
+        /**
+         * The game loop.
+         * The game loop calls update and draw using a timer
+         */
+        function gameLoop(){
+            update()
+            draw()
+        }
+
+        /**
+         * Update the model.
+         * Note that this function *only*
+         * changes the model. No drawing happens
+         */
+        function update(){
+            a++
+        }
+
+        /**
+         * Draw the model.
+         * Note that we only *read* the model, we never change it
+         * This allows of separation of concerns
+         */
+        function draw() {
+            //Get the canvas element and its context
+            let canvas = document.querySelector("#canv")
+            let ctx = canvas.getContext("2d")
+
+            //Clear the canvas
+            ctx.fillStyle = "lightgray"
+            ctx.beginPath()
+            ctx.rect(0,0,canvas.width,canvas.height)
+            ctx.fill()
+
+
+            //Draw the circle with a green interior
+            //and purple outline
+            ctx.beginPath();
+            ctx.fillStyle = "green"
+            ctx.strokeStyle = "purple"
+            ctx.lineWidth = 5
+            ctx.arc(50 + a, 50, 50, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.stroke()
+        }
+
+        function setup(){
+            let canvas = document.querySelector("#canv")
+            let ctx = canvas.getContext("2d")
+
+            //Make the canvas the same size as our window
+            //so it is "full screen"
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+        }
+
+        setup()
+
+        //In the background, create a thread and call
+        //gameLoop every 100ms.
+        setInterval(gameLoop, 100)
+    </script>
+</body>
+
+</html>
